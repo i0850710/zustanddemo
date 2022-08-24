@@ -2,17 +2,19 @@ import { useCounterStore } from './store/counter/index.js'
 import shallow from 'zustand/shallow'
 import { useUserStore } from './store/user/index.js'
 import { useEffect } from 'react'
-import { useStore } from './store/index.js'
 
-const ForStoreCount = () => {
-  console.log('Rendered ForStoreCount')
+//https://api.publicapis.org/entries
+//https://api.publicapis.org/random
+
+const Count = () => {
+  console.log('Rendered Count')
   const count = useCounterStore(state => state.count)
 
   return count
 }
 
-const ForStoreCounter = () => {
-  console.log('Rendered ForStoreCounter')
+const Counter = () => {
+  console.log('Rendered Counter')
   // const [addReturn, add] = useCounterStore(state => [state.addReturn, state.add], shallow)
   const addReturn = useCounterStore(state => state.addReturn)
   const add = useCounterStore(state => state.add)
@@ -20,7 +22,7 @@ const ForStoreCounter = () => {
   return (
     <div>
       <button onClick={() => add(-1)}>-</button>
-      <ForStoreCount />
+      <Count />
       <button onClick={() => {
         console.log(addReturn(1))
       }}>+</button>
@@ -28,8 +30,8 @@ const ForStoreCounter = () => {
   )
 }
 
-const ForStoreUser = () => {
-  console.log('Rendered ForStoreUser')
+const User = () => {
+  console.log('Rendered User')
   const [user, fetchUser] = useUserStore(state => [state.user, state.fetchUser], shallow)
 
   useEffect(() => {
@@ -42,8 +44,8 @@ const ForStoreUser = () => {
   </div>
 }
 
-const ForStoreSubUser = () => {
-  console.log('Rendered ForStoreSubUser')
+const SubUser = () => {
+  console.log('Rendered SubUser')
   const user = useUserStore.getState().user
 
   console.log(user)
@@ -56,101 +58,14 @@ const ForStoreSubUser = () => {
   </div>
 }
 
-const ForStore = () => {
-  console.log('Rendered ForStore')
-
-  return (
-    <>
-      <ForStoreCounter />
-      <ForStoreUser />
-      <ForStoreSubUser />
-    </>
-  )
-}
-
-
-
-
-
-
-
-
-
-
-
-
-const ForSlicesCount = () => {
-  console.log('Rendered ForSlicesCount')
-  const count = useStore(state => state.count)
-
-  return count
-}
-
-const ForSlicesCounter = () => {
-  console.log('Rendered ForSlicesCounter')
-  // const [addReturn, add] = useCounterStore(state => [state.addReturn, state.add], shallow)
-  const addReturn = useStore(state => state.addReturn)
-  const add = useStore(state => state.add)
-
-  return (
-    <div>
-      <button onClick={() => add(-1)}>-</button>
-      <ForSlicesCount />
-      <button onClick={() => {
-        console.log(addReturn(1))
-      }}>+</button>
-    </div>
-  )
-}
-
-const ForSlicesUser = () => {
-  console.log('Rendered ForSlicesUser')
-  const [user, fetchUser] = useStore(state => [state.user, state.fetchUser], shallow)
-
-  useEffect(() => {
-    fetchUser()
-  }, [])
-
-  return <div>
-    <hr/>
-    name: {user?.Cors}, official-web: {user?.Link}
-  </div>
-}
-
-const ForSlicesSubUser = () => {
-  console.log('Rendered ForSlicesSubUser')
-  const user = useStore.getState().user
-
-  console.log(user)
-
-  useEffect(() => useStore.subscribe(state => console.log(state.user)), [])
-
-  return <div>
-    <hr/>
-    SubUser
-  </div>
-}
-
-const ForSlices = () => {
-  console.log('Rendered ForSlices')
-
-  return (
-    <>
-      <ForSlicesCounter />
-      <ForSlicesUser />
-      <ForSlicesSubUser />
-    </>
-  )
-}
-
 function App() {
+  console.log('Rendered App')
+
   return (
     <>
-      <h1>ForStore</h1>
-      <ForStore />
-
-      <h1>ForSlices</h1>
-      <ForSlices />
+      <Counter />
+      <User />
+      <SubUser />
     </>
   )
 }
