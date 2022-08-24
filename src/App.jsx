@@ -13,6 +13,13 @@ const Count = () => {
   return count
 }
 
+const Count2 = () => {
+  console.log('Rendered Count2')
+  const count2 = useCounterStore(state => state.count2)
+
+  return count2.value
+}
+
 const Counter = () => {
   console.log('Rendered Counter')
   // const [addReturn, add] = useCounterStore(state => [state.addReturn, state.add], shallow)
@@ -22,7 +29,11 @@ const Counter = () => {
   return (
     <div>
       <button onClick={() => add(-1)}>-</button>
+      <i> </i>
       <Count />
+      /
+      <Count2 />
+      <i> </i>
       <button onClick={() => {
         console.log(addReturn(1))
       }}>+</button>
