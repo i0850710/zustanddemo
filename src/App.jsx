@@ -1,33 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useCounterStore } from './store/counter/index.js'
+import shallow from 'zustand/shallow'
+import { useUserStore } from './store/user/index.js'
+import { useEffect } from 'react'
 
-function App() {
-  const [count, setCount] = useState(0)
+//https://api.publicapis.org/entries
+//https://api.publicapis.org/random
+
+const Count = () => {
+  console.log('Rendered Count')
+  const count = useCounterStore(state => state.count)
+
+  return count
+}
+
+const Counter = () => {
+  console.log('Rendered Counter')
+  // const [addReturn, add] = useCounterStore(state => [state.addReturn, state.add], shallow)
+  const addReturn = useCounterStore(state => state.addReturn)
+  const add = useCounterStore(state => state.add)
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div>
+      <button onClick={() => add(-1)}>-</button>
+      <Count />
+      <button onClick={() => {
+        console.log(addReturn(1))
+      }}>+</button>
     </div>
+  )
+}
+
+const User = () => {
+  console.log('Rendered User')
+  const [user, fetchUser] = useUserStore(state => [state.user, state.fetchUser], shallow)
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
+
+  return <div>
+    <hr/>
+    name: {user?.Cors}, official-web: {user?.Link}
+  </div>
+}
+
+const SubUser = () => {
+  console.log('Rendered SubUser')
+  const user = useUserStore.getState().user
+
+  console.log(user)
+
+  useEffect(() => useUserStore.subscribe(state => console.log(state.user)), [])
+
+  return <div>
+    <hr/>
+    SubUser
+  </div>
+}
+
+function App() {
+  console.log('Rendered App')
+
+  return (
+    <>
+      <Counter />
+      <User />
+      <SubUser />
+    </>
   )
 }
 
