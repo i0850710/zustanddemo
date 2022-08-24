@@ -1,6 +1,5 @@
-import create from 'zustand'
 
-export const useCounterStore = create((set, get) => ({
+export const createCounterSlice = (set, get) => ({
   count: 0,
   add: (by) => set(state => ({ count: state.count + by })),
   addReturn: (by) => {
@@ -10,4 +9,4 @@ export const useCounterStore = create((set, get) => ({
 
     return count
   },
-}))
+})
