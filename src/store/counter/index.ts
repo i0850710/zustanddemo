@@ -2,14 +2,21 @@ import create from 'zustand'
 import produce from 'immer'
 import { persist } from 'zustand/middleware'
 
+type CounterState = {
+  count: number
+  count2: { value: number }
+  add: (by: number) => void
+  addReturn: (by: number) => [number, number]
+}
+
 export const useCounterStore = create(
-  persist(
+  persist<CounterState, [], [], Pick<CounterState, 'count'>>(
     (set, get) => ({
       count: 0,
       count2: { value: 0 },
       add: (by) => set(state => {
         const newCount = state.count + by
-        const newState = { count: newCount }
+        const newState = { count: newCount } as Pick<CounterState, 'count' | 'count2'>
 
         if (newCount % 5 === 0) {
           newState.count2 = { value: newCount / 5 }
@@ -36,7 +43,7 @@ export const useCounterStore = create(
       name: 'counter-storage',
       partialize: state => ({
         count: state.count
-      })
+      }),
     }
   )
 )

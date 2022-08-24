@@ -1,23 +1,25 @@
-import { useCounterStore } from './store/counter/index.js'
+import { useCounterStore } from './store/counter'
 import shallow from 'zustand/shallow'
-import { useUserStore } from './store/user/index.js'
-import { useEffect } from 'react'
+import { useUserStore } from './store/user'
+import { useEffect, FC } from 'react'
 
 //https://api.publicapis.org/entries
 //https://api.publicapis.org/random
 
-const Count = () => {
+const Count: FC = () => {
   console.log('Rendered Count')
   const count = useCounterStore(state => state.count)
 
-  return count
+  return <>
+    {count}
+  </>
 }
 
-const Count2 = () => {
+const Count2: FC = () => {
   console.log('Rendered Count2')
   const count2 = useCounterStore(state => state.count2)
 
-  return count2.value
+  return <>{count2.value}</>
 }
 
 const Counter = () => {
